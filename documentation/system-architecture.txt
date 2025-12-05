@@ -1,0 +1,73 @@
+SYSTEM ARCHITECTURE – SELF BALANCING ROBOT
+---------------------------------------------
+
+Data Flow:
+MPU6050 → Angle Calculation → PID Controller → Motor Mixing → TB6612FNG → Motors
+
+---------------------------------------------
+1) SENSOR STAGE
+---------------------------------------------
+MPU6050 outputs:
+- Accelerometer data (ax, ay, az)
+- Gyroscope data (gx, gy, gz)
+
+Accelerometer gives angle but noisy.
+Gyroscope gives smooth rate but drifts.
+
+So we combine using complementary filter:
+
+filtered_angle =
+0.98 × (previous + gyroRate × dt)
++ 0.02 × (accelerometer angle)
+
+---------------------------------------------
+2) PID CONTROL STAGE
+---------------------------------------------
+PID continuously computes motor torque based on angle difference.
+
+If angle < setpoint
+    robot falling forward → motors apply reverse torque
+If angle > setpoint
+    robot falling backward → motors apply forward torque
+
+---------------------------------------------
+3) MOVEMENT COMMAND INTEGRATION
+---------------------------------------------
+User sends commands via Bluetooth:
+
+F → Forward
+B → Backward
+L → Left
+R → Right
+S → Stop
+
+Movement modifies PID output:
+
+Example:
+LEFT TURN:
+leftMotor  = PID - 40
+rightMotor = PID + 40
+
+---------------------------------------------
+4) MOTOR DRIVER STAGE (TB6612FNG)
+---------------------------------------------
+
+Motor A:
+AIN1 = Direction 1
+AIN2 = Direction 2
+PWMA = Speed (PWM)
+
+Motor B:
+BIN1 = Direction 1
+BIN2 = Direction 2
+PWMB = Speed (PWM)
+
+STBY must be HIGH to enable motors.
+
+---------------------------------------------
+5) CONTROL LOOP TIMING
+---------------------------------------------
+Sensor update every: 5ms
+PID update every:     20ms
+
+Small loop timing → smooth stable balancing

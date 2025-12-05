@@ -1,0 +1,63 @@
+MOVEMENT COMMANDS
+---------------------------------------------
+Send through Bluetooth App:
+
+F = Forward
+B = Backward
+L = Left turn
+R = Right turn
+S = Stop
+
+Example:
+F
+
+Response:
+ACK: CMD=F
+
+---------------------------------------------
+PID ADJUSTMENT COMMANDS
+---------------------------------------------
+Format:
+SET <variable> <value>
+
+Supported:
+SET KP <value>
+SET KI <value>
+SET KD <value>
+SET SP <value>
+
+Example:
+SET KP 20
+SET KD 2.3
+SET SP -4
+
+Robot response:
+ACK: KP=20
+ACK: Setpoint=-4.0
+
+---------------------------------------------
+WARNING
+---------------------------------------------
+Tune only while robot is balancing.
+
+For stability:
+Increase KP → robot responds faster
+Increase KD → reduce oscillation
+Increase SP → robot leans backward
+Decrease SP → robot leans forward
+
+---------------------------------------------
+MOST COMMON VALUES
+---------------------------------------------
+KP = 18–25
+KI = 0.00–0.03
+KD = 2.0–3.0
+SP = -3.0 to -5.0
+
+---------------------------------------------
+USEFUL GUIDELINES
+---------------------------------------------
+If robot falls forward → decrease SP
+If robot falls backward → increase SP
+If robot vibrates → increase KD or decrease KP
+When stable → save values

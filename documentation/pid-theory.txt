@@ -1,0 +1,76 @@
+PID Theory for Self-Balancing Robot
+
+A self-balancing robot continuously tries to fall due to gravity.
+The PID controller gives a corrective force to bring the robot back to a stable position.
+
+Formula:
+output = Kp × error + Ki × (sum of errors) + Kd × (difference in error)
+
+Where:
+error = setpoint – current_angle
+
+Meaning:
+If robot leans forward → error increases → motors must reverse
+If robot leans backward → error decreases → motors move forward
+
+---------------------------------------------
+PID PARAMETER EXPLANATION
+---------------------------------------------
+
+1) Proportional (Kp)
+P = Kp × error
+- Gives immediate correction
+- Too high → robot oscillates aggressively
+- Too low → robot reacts slowly
+
+2) Integral (Ki)
+I = I(previous) + error × dt
+- Removes long-term drift
+- Mostly used small (0.00–0.03)
+- Too high causes uncontrolled swings
+
+3) Derivative (Kd)
+D = (error – last_error) / dt
+- Dampens oscillation
+- Smoothens movement
+- Too high → robot feels slow
+
+---------------------------------------------
+Why Setpoint is Negative?
+---------------------------------------------
+
+setpoint ≈ −3.0 to −5.0 degrees
+
+Robot balances best when slightly leaning forward.
+
+This makes motor thrust cancel gravitational pull.
+
+---------------------------------------------
+Recommended Initial Values
+---------------------------------------------
+
+KP = 18  
+KI = 0.00  
+KD = 2.0  
+SP = −3.5
+
+---------------------------------------------
+How to Tune PID
+---------------------------------------------
+
+Step 1 → Increase KP until robot oscillates → reduce slightly  
+Step 2 → Increase KD until movement becomes smooth  
+Step 3 → Add small KI only if robot slowly drifts  
+
+Example commands:
+SET KP 20
+SET KD 2.3
+SET KI 0.005
+SET SP -3.8
+
+---------------------------------------------
+Final Summary
+---------------------------------------------
+Kp high = Fast response + oscillation
+Kd high = Slower movement but stable
+Ki high = Overshoot, drifting badly
