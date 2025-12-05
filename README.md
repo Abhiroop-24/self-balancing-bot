@@ -2,7 +2,7 @@
 A self-balancing two-wheeled robot built using an ESP32, MPU6050 IMU, and PID control.  
 The robot balances upright, responds to Bluetooth commands, and allows real-time PID tuning without reflashing firmware.
 
-![ESP32 Balancing Robot](hardware/images/front-view.jpg)
+![ESP32 Balancing Robot](JLCPCB/PCB_circuit.jpg)
 
 ---
 
